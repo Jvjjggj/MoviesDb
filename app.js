@@ -58,6 +58,18 @@ app.get("/movies/:movieId/", async (request, response) => {
         movie_id=${movieId};
     `;
 
-  const book = await db.get(getBookQuery);
-  response.send(book);
+  const dbresponse = await db.get(getBookQuery);
+
+  const change = (dbresponse) => {
+    return {
+      movieId: dbresponse.movie_id,
+      directorId: dbresponse.director_id,
+      movieName: dbresponse.movie_name,
+      leadActor: dbresponse.lead_actor,
+    };
+  };
+
+  const changedb = change(dbresponse);
+
+  response.send(changedb);
 });
