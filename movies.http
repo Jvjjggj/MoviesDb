@@ -14,4 +14,6 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3003/movies/4/
+GET http://localhost:3003/movies/69/
+
+###

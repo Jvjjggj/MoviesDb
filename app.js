@@ -47,7 +47,17 @@ app.post("/movies/", async (request, response) => {
 });
 
 app.get("/movies/:movieId/", async (request, response) => {
-  const movieId = request.params;
-  const dbQuery = `select * from movie where movie_id=${movieId}`;
-  response.send(movieId);
+  const { movieId } = request.params;
+  const integer = Number(movieId.movieId);
+  const getBookQuery = `
+    SELECT
+        *
+    FROM
+        movie
+    WHERE
+        movie_id=${movieId};
+    `;
+
+  const book = await db.get(getBookQuery);
+  response.send(book);
 });
