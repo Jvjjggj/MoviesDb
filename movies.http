@@ -7,9 +7,9 @@ POST http://localhost:3003/movies/
 Content-Type: application/json
 
 {
-  "directorId":6,
-  "movieName": "Jurassic Park",
-  "leadActor": "Jeff Goldblum"
+  "director_id":6,
+  "movie_name": "Jurassic Park",
+  "lead_actor": "Jeff Goldblum"
 }
 
 ###

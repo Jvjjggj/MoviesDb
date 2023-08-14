@@ -36,5 +36,12 @@ app.get("/movies/", async (request, response) => {
 app.post("/movies/", async (request, response) => {
   const movieDetails = request.body;
   //https://github.com/Jvjjggj/MoviesDb.git
-  const { directorId, movieName, leadActor };
+  const { director_id, movie_name, lead_actor } = movieDetails;
+  const dbQuery = `insert into movie (director_id,movie_name,lead_actor) 
+  values (${director_id},"${movie_name}","${lead_actor}");`;
+  const dbresponse = await db.run(dbQuery);
+  const movieId = dbresponse.lastID;
+
+  const { stmt, lastID, changes } = dbresponse;
+  response.send("Movie Successfully Added");
 });
