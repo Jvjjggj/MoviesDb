@@ -34,3 +34,7 @@ DELETE http://localhost:3003/movies/46/
 ### API 5
 
 GET http://localhost:3003/directors/
+
+### API 6
+
+GET http://localhost:3003/directors/5/movies/
