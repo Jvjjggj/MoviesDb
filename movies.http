@@ -1,6 +1,6 @@
 GET http://localhost:3003/movies/
 
-###
+### API 1
 
 
 POST http://localhost:3003/movies/
@@ -12,8 +12,25 @@ Content-Type: application/json
   "lead_actor": "Jeff Goldblum"
 }
 
-###
+### API 2
 
-GET http://localhost:3003/movies/69/
+GET http://localhost:3003/movies/46/
 
-###
+### API 3
+
+PUT http://localhost:3003/movies/1/
+Content-Type: application/json
+
+{
+  "directorId": 24,
+  "movieName": "Thor",
+  "leadActor": "Christopher Hemsworth"
+}
+
+### API 4
+
+DELETE http://localhost:3003/movies/46/
+
+### API 5
+
+GET http://localhost:3003/directors/
