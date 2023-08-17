@@ -106,4 +106,22 @@ app.get("/directors/", async (request, response) => {
 
 // API 7
 
+app.get("/directors/:directorId/movies/", async (request, response) => {
+  const { directorId } = request.params;
+  const query = `
+  select * from movie inner join director on (movie.director_id=director.director_id)`;
+  const dbresponse = await db.all(query);
+  const format = (i) => {
+    return {
+      movieName: i.movie_name,
+    };
+  };
+  const lst = [];
+  for (let i of dbresponse) {
+    let change = format(i);
+    lst.push(change);
+  }
+  response.send(lst);
+});
+
 module.exports = app;
