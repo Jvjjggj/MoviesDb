@@ -29,6 +29,15 @@ const directorFormat = function (i) {
     directorName: i.director_name,
   };
 };
+
+const movieFormat = function (i) {
+  return {
+    movieId: i.movie_id,
+    directorId: i.director_id,
+    movieName: i.movie_name,
+    leadActor: i.lead_actor,
+  };
+};
 // API 1
 app.get("/movies/", async (request, response) => {
   const dbQuery = `select * from movie`;
@@ -39,23 +48,23 @@ app.get("/movies/", async (request, response) => {
       movieName: i.movie_name,
     });
   }
-  response.send(dbresponse);
+  response.send(lst);
 });
 
 // API 2
 app.post("/movies/", async (request, response) => {
-  const movieDetails = request.body;
-  //https://github.com/Jvjjggj/MoviesDb.git
-  const { director_id, movie_name, lead_actor } = movieDetails;
-  const dbQuery = `insert into movie (director_id,movie_name,lead_actor) 
-  values (${director_id},"${movie_name}","${lead_actor}");`;
-  const dbresponse = await db.run(dbQuery);
-  const movieId = dbresponse.lastID;
+  const bookDetails = request.body;
+  const { directorId, movieName, leadActor } = bookDetails;
+  const addBookQuery = `INSERT INTO
+      movie (director_id,movie_name,lead_actor)
+    VALUES
+      (${directorId},"${movieName}","${leadActor}"
+      );`;
 
-  const { stmt, lastID, changes } = dbresponse;
+  const dbResponse = await db.run(addBookQuery);
+  const bookId = dbResponse.lastID;
   response.send("Movie Successfully Added");
 });
-
 // API 3
 app.get("/movies/:movieId/", async (request, response) => {
   const { movieId } = request.params;
@@ -63,7 +72,7 @@ app.get("/movies/:movieId/", async (request, response) => {
   select * from movie 
   where movie_id=${movieId}`;
   const dbresponse = await db.get(query);
-  response.send(dbresponse);
+  response.send(movieFormat(dbresponse));
 });
 
 // API 4
@@ -109,16 +118,18 @@ app.get("/directors/", async (request, response) => {
 app.get("/directors/:directorId/movies/", async (request, response) => {
   const { directorId } = request.params;
   const query = `
-  select * from movie inner join director on (movie.director_id=director.director_id)`;
+  select * from movie 
+  where 
+     director_id=${directorId}`;
   const dbresponse = await db.all(query);
+  let lst = [];
   const format = (i) => {
     return {
       movieName: i.movie_name,
     };
   };
-  const lst = [];
   for (let i of dbresponse) {
-    let change = format(i);
+    const change = format(i);
     lst.push(change);
   }
   response.send(lst);
